@@ -1,0 +1,40 @@
+db.createCollection("iamUsers", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+         required: [ "_id", "passwd", "name", "role" ],
+         properties: {
+            name: {
+               bsonType: "string",
+               description: "user name should be of type string "
+            },
+			_id: {
+               bsonType: "number",
+               description: "_id is unique & should be of type number"
+            },
+            role: {
+               bsonType: "string",
+               description: "user role is require & must be of type stinrg "
+            },
+			emailId: {
+               bsonType: "string",
+               description: "user email id is optional but should be of type string "
+            },
+			otherUserData:{
+				bsonType: "object",
+				properties: {
+					attr1: {
+						bsonType: "string",
+						description: "other attr1 data"
+            },
+					attr2: {
+						bsonType: "string",
+						description: "other attr2 data"
+            },
+			}
+            
+         }
+      }
+   }
+   }
+})
