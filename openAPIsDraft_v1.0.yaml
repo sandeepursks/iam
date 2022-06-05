@@ -1,0 +1,87 @@
+openapi: 3.0.3
+
+info:
+  title: Draft APIs for IAM
+  description: 'This document is a draft version of API specification'
+  version: 0.0.1
+
+servers:
+  - url: https://api.havells.com/product
+    description: ""
+
+tags:
+  - name: Identity & Access Management 
+    description: 'API of login,logout'
+
+paths:
+  /login:
+    post:
+      tags:
+        - 'Identity & Access Management'
+      summary: 'Get authentication token.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginRequestObject'
+      responses:
+        '200':
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loginResponseObject'
+  /logout:
+    get:
+      tags:
+        - 'Identity & Access Management'
+      summary: 'Clears authentication token & invokes federation call backs if any'
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description:
+            Gets Valid JWT Token along with refresh token<br>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loginResponseObject'
+    
+components:
+  schemas:
+    # request parameters
+    loginRequestObject:
+      type: object
+      properties:
+        phoneNo:
+          type: number
+          default: '9880198801'
+          description: 'User Phone Number'
+        passwd:
+          type: string
+          description: 'Password in Encoded Format'
+      required:
+        - phoneNo
+        - passwd
+
+    # response parameters
+    loginResponseObject:
+      type: object
+      properties:
+        status:
+          type: string
+          description: 'Get authenticate token result.'
+        data:
+          type: object
+          properties:
+            parsedToken:
+              type: string
+            userId:
+              type: string
+            others:
+              type: object
